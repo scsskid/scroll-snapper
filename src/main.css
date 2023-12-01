@@ -1,0 +1,87 @@
+:root {
+  --container-width: 1280px;
+  --container-margin: 2rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+}
+
+body {
+  margin: 0;
+  font-family: 'system-ui', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.wrap {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 2rem var(--container-margin);
+}
+
+h1 {
+  margin: 0 0 2rem;
+}
+
+.demo-0 {
+  background-color: lightcyan;
+}
+
+.demo-1 {
+  background-color: floralwhite;
+}
+
+/* Common */
+
+.snap-slider__scroll-container {
+  display: flex;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  > * {
+    scroll-snap-align: start;
+  }
+}
+
+/* Demo 0 */
+
+.demo-0 .snap-slide {
+  background-color: lightblue;
+  border: 1px solid blue;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  width: 100%;
+  height: 30rem;
+  flex: none;
+}
+
+/* Demo 1 */
+
+.demo-1 .snap-slider__scroll-container {
+  --grid-max-width: var(--container-width);
+  --grid-margin: var(--container-margin);
+  --padding: calc(50% - var(--grid-max-width) / 2 + var(--grid-margin) * 2 / 2);
+
+  gap: 1rem;
+
+  /* Zalando */
+
+  padding-inline: var(--padding);
+  scroll-padding-left: var(--padding);
+  scroll-behavior: smooth;
+}
+
+.demo-1 .snap-slide {
+  background-color: lightblue;
+  border: 1px solid blue;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  width: 50%;
+  height: 30rem;
+  flex: none;
+}
