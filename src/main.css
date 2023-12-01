@@ -62,12 +62,17 @@ h1 {
 
 /* Demo 1 */
 
+.demo-1 {
+  --elements: 2;
+  --gap: 0.75rem;
+}
+
 .demo-1 .snap-slider__scroll-container {
   --grid-max-width: var(--container-width);
   --grid-margin: var(--container-margin);
   --padding: calc(50% - var(--grid-max-width) / 2 + var(--grid-margin) * 2 / 2);
 
-  gap: 1rem;
+  gap: var(--gap);
 
   /* Zalando */
 
@@ -81,7 +86,10 @@ h1 {
   border: 1px solid blue;
   padding: 1rem;
   margin-bottom: 1rem;
-  width: 50%;
+  width: calc(
+    100% / var(--elements) -
+      calc(var(--gap) * calc(var(--elements) - 1) / var(--elements))
+  );
   height: 30rem;
   flex: none;
 }
