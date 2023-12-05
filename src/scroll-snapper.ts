@@ -29,8 +29,8 @@ export default class ScrollSnapper {
     this.initState();
     this.createControls();
     this.createObservers();
-    // this.createDebugger();
     this.listen();
+    this.createDebugger();
   }
 
   private initState() {

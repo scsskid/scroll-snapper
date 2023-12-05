@@ -21,33 +21,38 @@ body {
   margin: 0 auto;
 }
 
+header {
+  padding: 3rem 0 3rem;
+}
+
 h1 {
   margin: 0 0 2rem;
 }
 
-.demo-1 {
+/* .demo-1 {
   background-color: lightcyan;
 }
 
 .demo-2 {
   background-color: floralwhite;
-}
+} */
 
 /* Slider Common Basic */
 
 [data-snap-slider] {
   --elements: 1;
   --gap: 1rem;
+  --padding: 0;
 
   display: flex;
+  gap: var(--gap, 0);
+
   overflow-x: scroll;
   scroll-snap-type: x mandatory;
+  /* scroll-behavior: smooth; */
 
-  gap: var(--gap);
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  padding-inline: var(--padding);
+  scroll-padding-left: var(--padding);
 }
 
 [data-snap-slider] > * {
@@ -59,6 +64,21 @@ h1 {
   );
 }
 
+[data-snap-slider]::-webkit-scrollbar {
+  display: none;
+}
+
+/* Holy Grail Only Vars */
+
+.demo-holy-grail [data-snap-slider] {
+  --elements: 6;
+  --gap: 0.75rem;
+  --padding-pre-calc: calc(
+    50% - var(--container-width) / 2 + var(--container-margin) * 2 / 2
+  );
+  --padding: clamp(var(--container-margin), var(--padding-pre-calc), 100vw);
+}
+
 /* Slider Stylistic */
 
 [data-snap-slider] > * {
@@ -66,36 +86,4 @@ h1 {
   border: 1px solid blue;
   padding: 1rem;
   height: 30rem;
-}
-
-/* Holy Grail Demo */
-
-.demo-holy-grail [data-snap-slider] {
-  --elements: 6;
-  --gap: 0.75rem;
-  --padding: calc(
-    50% - var(--container-width) / 2 + var(--container-margin) * 2 / 2
-  );
-  --padding-clamped: clamp(var(--container-margin), var(--padding), 100vw);
-
-  gap: var(--gap);
-
-  /* Zalando */
-
-  padding-inline: var(--padding-clamped);
-  scroll-padding-left: var(--padding-clamped);
-  scroll-behavior: smooth;
-}
-
-.demo-holy-grail [data-snap-slider] > .snap-slide {
-  background-color: lightblue;
-  border: 1px solid blue;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  width: calc(
-    100% / var(--elements) -
-      calc(var(--gap) * calc(var(--elements) - 1) / var(--elements))
-  );
-  height: 20rem;
-  flex: none;
 }
