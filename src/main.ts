@@ -1,8 +1,10 @@
 import './main.css';
 import ScrollSnapper from './scroll-snapper';
 
-const snapper1 = new ScrollSnapper(document.querySelector('.snap-slider--1')!);
-const snapper2 = new ScrollSnapper(document.querySelector('.snap-slider--2')!);
+const snappers = [];
 
-window.snapper1 = snapper1;
-window.snapper2 = snapper2;
+document.querySelectorAll('.snap-slider').forEach((slider) => {
+  snappers.push(new ScrollSnapper({ root: slider as HTMLDivElement }));
+});
+
+window.snappers = snappers;

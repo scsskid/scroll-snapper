@@ -13,11 +13,12 @@ export default class ScrollSnapper {
   private isLast: boolean;
   private intersectingLength: number;
 
-  constructor(element: HTMLDivElement) {
+  // constructor(element: HTMLDivElement) {
+  constructor({ root: element }: { root: HTMLDivElement }) {
     this.elements = {
       root: element,
-      scrollContainer: element.querySelector('.snap-slider__scroll-container')!,
-      slides: element.querySelectorAll('.snap-slide'),
+      scrollContainer: element.firstElementChild as HTMLElement,
+      slides: element.firstElementChild!.querySelectorAll(':scope > *'),
       previousButton: null,
       nextButton: null
     };
@@ -53,7 +54,7 @@ export default class ScrollSnapper {
     this.elements.previousButton = prevButton;
     this.elements.nextButton = nextButton;
 
-    this.elements.root.prepend(controls);
+    this.elements.scrollContainer.before(controls);
   }
 
   private createObservers() {
@@ -224,7 +225,7 @@ export default class ScrollSnapper {
     let debug = document.createElement('div');
     debug.className = 'snap-slider__debug';
     debug.innerHTML = 'debug';
-    this.elements.root.appendChild(debug);
+    this.elements.scrollContainer.after(debug);
     this.elements.debug = debug;
   }
 }
