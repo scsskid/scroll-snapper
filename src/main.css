@@ -35,8 +35,8 @@ h1 {
 
 /* Slider Common Basic */
 
-.snap-slider__scroll-container {
-  --elements: 2;
+[data-snap-slider] {
+  --elements: 1;
   --gap: 1rem;
 
   display: flex;
@@ -48,13 +48,10 @@ h1 {
   &::-webkit-scrollbar {
     display: none;
   }
-
-  > * {
-    scroll-snap-align: start;
-  }
 }
 
-.snap-slide {
+[data-snap-slider] > * {
+  scroll-snap-align: start;
   flex: none;
   width: calc(
     100% / var(--elements) -
@@ -64,16 +61,16 @@ h1 {
 
 /* Slider Stylistic */
 
-.snap-slide {
+[data-snap-slider] > * {
   background-color: lightblue;
   border: 1px solid blue;
   padding: 1rem;
   height: 30rem;
 }
 
-/* Demo 1 */
+/* Holy Grail Demo */
 
-.snap-slider--2 .snap-slider__scroll-container {
+.demo-holy-grail [data-snap-slider] {
   --elements: 6;
   --gap: 0.75rem;
   --padding: calc(
@@ -90,7 +87,7 @@ h1 {
   scroll-behavior: smooth;
 }
 
-.snap-slider--2 .snap-slide {
+.demo-holy-grail [data-snap-slider] > .snap-slide {
   background-color: lightblue;
   border: 1px solid blue;
   padding: 1rem;

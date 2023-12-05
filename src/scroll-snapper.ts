@@ -1,11 +1,10 @@
 export default class ScrollSnapper {
   private elements: {
-    root: HTMLElement;
     scrollContainer: HTMLElement;
     slides: NodeListOf<HTMLElement & { hasIntersected: boolean }>;
-    previousButton: HTMLButtonElement | null;
-    nextButton: HTMLButtonElement | null;
-    debug?: HTMLDivElement;
+    previousButton?: HTMLButtonElement;
+    nextButton?: HTMLButtonElement;
+    debug?: HTMLElement;
   };
   private intersectionObserver: IntersectionObserver | null;
   public current: HTMLElement;
@@ -14,13 +13,13 @@ export default class ScrollSnapper {
   private intersectingLength: number;
 
   // constructor(element: HTMLDivElement) {
-  constructor({ root: element }: { root: HTMLDivElement }) {
+  constructor({ scrollContainer: element }: { scrollContainer: HTMLElement }) {
     this.elements = {
-      root: element,
-      scrollContainer: element.firstElementChild as HTMLElement,
-      slides: element.firstElementChild!.querySelectorAll(':scope > *'),
-      previousButton: null,
-      nextButton: null
+      scrollContainer: element,
+      slides: element.querySelectorAll(':scope > *'),
+      previousButton: undefined,
+      nextButton: undefined,
+      debug: undefined
     };
     this.current = this.elements.slides[0];
     this.intersectingLength = 0;
@@ -30,7 +29,7 @@ export default class ScrollSnapper {
     this.initState();
     this.createControls();
     this.createObservers();
-    this.createDebugger();
+    // this.createDebugger();
     this.listen();
   }
 

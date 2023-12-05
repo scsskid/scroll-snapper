@@ -1,10 +1,12 @@
 import './main.css';
 import ScrollSnapper from './scroll-snapper';
 
-const snappers = [];
+const snappers = [] as ScrollSnapper[];
 
-document.querySelectorAll('.snap-slider').forEach((slider) => {
-  snappers.push(new ScrollSnapper({ root: slider as HTMLDivElement }));
+document.querySelectorAll('[data-snap-slider]').forEach((slider) => {
+  snappers.push(
+    new ScrollSnapper({
+      scrollContainer: slider as HTMLElement
+    })
+  );
 });
-
-window.snappers = snappers;
