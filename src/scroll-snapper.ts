@@ -35,6 +35,8 @@ export default class ScrollSnapper {
 
   private initState() {
     if (!this.elements.slides) return;
+
+    // set all slides to hasIntersected: false and add data-index attribute
     this.elements.slides.forEach((slide, index) => {
       slide.hasIntersected = false;
       slide.setAttribute('data-index', index.toString());
@@ -162,6 +164,10 @@ export default class ScrollSnapper {
       return slide.hasIntersected;
     })!;
 
+    // bail if current is undefined (can happen in single slide mode)
+    // prevent error when current is undefined when accessing dataset
+    if (!this.current) return;
+
     // set isFirst and isLast
     this.isFirst = this.current.dataset.index === '0';
 
@@ -185,21 +191,7 @@ export default class ScrollSnapper {
     }
 
     // refresh debug
-    const debugObject = [...this.elements.slides].map((slide) => {
-      return {
-        index: slide.dataset.index,
-        isIntersecting: slide.hasIntersected
-      };
-    });
-
-    this.elements.debug!.innerHTML = `
-			<pre style="font-size: .7rem">
-				current: ${this.current.dataset.index}
-				intersectingLength: ${this.intersectingLength}
-		
-				${JSON.stringify(debugObject, null, 2)}
-			
-			</pre>`;
+    this.updateDebugger();
   }
 
   /**
@@ -226,5 +218,26 @@ export default class ScrollSnapper {
     debug.innerHTML = 'debug';
     this.elements.scrollContainer.after(debug);
     this.elements.debug = debug;
+  }
+
+  /**
+   * Updates the debug element
+   */
+  private updateDebugger() {
+    const debugObject = [...this.elements.slides].map((slide) => {
+      return {
+        index: slide.dataset.index,
+        isIntersecting: slide.hasIntersected
+      };
+    });
+
+    this.elements.debug!.innerHTML = `
+			<pre style="font-size: .7rem">
+				current: ${this.current.dataset.index}
+				intersectingLength: ${this.intersectingLength}
+		
+				${JSON.stringify(debugObject, null, 2)}
+			
+			</pre>`;
   }
 }

@@ -1,10 +1,10 @@
-:root {
-  --container-width: 1280px;
-  --container-margin: 2rem;
-}
-
 * {
   box-sizing: border-box;
+}
+
+:root {
+  --container-width: 680px;
+  --container-margin: 2rem;
 }
 
 body {
@@ -29,13 +29,9 @@ h1 {
   margin: 0 0 2rem;
 }
 
-/* .demo-1 {
-  background-color: lightcyan;
+body {
+  margin: 0;
 }
-
-.demo-2 {
-  background-color: floralwhite;
-} */
 
 /* Slider Common Basic */
 
@@ -52,12 +48,13 @@ h1 {
   /* scroll-behavior: smooth; */
 
   padding-inline: var(--padding);
-  scroll-padding-left: var(--padding);
+  scroll-padding-inline-start: var(--padding);
 }
 
 [data-snap-slider] > * {
   scroll-snap-align: start;
-  flex: none;
+  flex: 0 0 auto;
+
   width: calc(
     100% / var(--elements) -
       calc(var(--gap) * calc(var(--elements) - 1) / var(--elements))
@@ -71,7 +68,7 @@ h1 {
 /* Holy Grail Only Vars */
 
 .demo-holy-grail [data-snap-slider] {
-  --elements: 6;
+  --elements: 4;
   --gap: 0.75rem;
   --padding-pre-calc: calc(
     50% - var(--container-width) / 2 + var(--container-margin) * 2 / 2
@@ -83,7 +80,10 @@ h1 {
 
 [data-snap-slider] > * {
   background-color: lightblue;
-  border: 1px solid blue;
+
   padding: 1rem;
-  height: 30rem;
+  height: 20rem;
+
+  /* inner box shadow which appears like a border */
+  box-shadow: inset 0 0 0 1px #f00;
 }
