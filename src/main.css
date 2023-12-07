@@ -1,89 +1,97 @@
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 :root {
-  --container-width: 680px;
-  --container-margin: 2rem;
+	--container-width: 680px;
+	--container-margin: 2rem;
 }
 
 body {
-  margin: 0;
-  font-family: 'system-ui', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+	margin: 0;
+	font-family: 'system-ui', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
 .wrap {
-  padding-inline: var(--container-margin);
+	padding-inline: var(--container-margin);
 }
 
 .container {
-  max-width: var(--container-width);
-  margin: 0 auto;
+	max-width: var(--container-width);
+	margin: 0 auto;
 }
 
 header {
-  padding: 3rem 0 3rem;
+	padding: 3rem 0 3rem;
 }
 
 h1 {
-  margin: 0 0 2rem;
+	margin: 0 0 2rem;
 }
 
 body {
-  margin: 0;
+	margin: 0;
 }
 
 /* Slider Common Basic */
 
 [data-snap-slider] {
-  --elements: 1;
-  --gap: 1rem;
-  --padding: 0;
+	--elements: 1;
+	--gap: 1rem;
+	--padding: 0;
 
-  display: flex;
-  gap: var(--gap, 0);
+	display: flex;
+	gap: var(--gap, 0);
 
-  overflow-x: scroll;
-  scroll-snap-type: x mandatory;
-  /* scroll-behavior: smooth; */
+	overflow-x: scroll;
+	scroll-snap-type: x mandatory;
+	/* scroll-behavior: smooth; */
 
-  padding-inline: var(--padding);
-  scroll-padding-inline-start: var(--padding);
+	padding-inline: var(--padding);
+	scroll-padding-inline-start: var(--padding);
 }
 
 [data-snap-slider] > * {
-  scroll-snap-align: start;
-  flex: 0 0 auto;
+	scroll-snap-align: start;
+	flex: 0 0 auto;
 
-  width: calc(
-    100% / var(--elements) -
-      calc(var(--gap) * calc(var(--elements) - 1) / var(--elements))
-  );
+	width: calc(
+		100% / var(--elements) -
+			calc(var(--gap) * calc(var(--elements) - 1) / var(--elements))
+	);
 }
 
 [data-snap-slider]::-webkit-scrollbar {
-  display: none;
+	display: none;
 }
 
 /* Holy Grail Only Vars */
 
 .demo-holy-grail [data-snap-slider] {
-  --elements: 4;
-  --gap: 0.75rem;
-  --padding-pre-calc: calc(
-    50% - var(--container-width) / 2 + var(--container-margin) * 2 / 2
-  );
-  --padding: clamp(var(--container-margin), var(--padding-pre-calc), 100vw);
+	--elements: 4;
+	--gap: 0.75rem;
+	--padding-pre-calc: calc(
+		50% - var(--container-width) / 2 + var(--container-margin) * 2 / 2
+	);
+	--padding: clamp(var(--container-margin), var(--padding-pre-calc), 100vw);
 }
 
 /* Slider Stylistic */
 
 [data-snap-slider] > * {
-  background-color: lightblue;
+	background-color: lightblue;
 
-  padding: 1rem;
-  height: 20rem;
+	padding: 1rem;
+	height: 20rem;
 
-  /* inner box shadow which appears like a border */
-  box-shadow: inset 0 0 0 1px #f00;
+	/* inner box shadow which appears like a border */
+	box-shadow: inset 0 0 0 1px #f00;
+}
+
+/* etc */
+
+pre {
+	font-size: 0.75rem;
+
+	overflow-x: auto;
 }
