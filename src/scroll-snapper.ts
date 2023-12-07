@@ -7,12 +7,16 @@ export default class ScrollSnapper {
 		debug?: HTMLElement;
 	};
 	private intersectionObserver: IntersectionObserver | null;
-	public current: HTMLElement;
+	public current: {
+		element: HTMLElement;
+	};
 	private isFirst: boolean;
 	private isLast: boolean;
 	private intersectingLength: number;
+	private options: {
+		scrollBy: number;
+	};
 
-	// constructor(element: HTMLDivElement) {
 	constructor({ scrollContainer: element }: { scrollContainer: HTMLElement }) {
 		this.elements = {
 			scrollContainer: element,
@@ -21,7 +25,13 @@ export default class ScrollSnapper {
 			nextButton: undefined,
 			debug: undefined
 		};
-		this.current = this.elements.slides[0];
+		this.options = {
+			// get scrollBy from css variable or use 1 as default
+			scrollBy: parseInt(getCssVariableValue(element, '--scroll-by')) || 1
+		};
+		this.current = {
+			element: this.elements.slides[0]
+		};
 		this.intersectingLength = 0;
 		this.intersectionObserver = null;
 		this.isFirst = false;
@@ -108,42 +118,38 @@ export default class ScrollSnapper {
 	}
 
 	goToNext() {
-		const next = this.current.nextElementSibling as HTMLDivElement;
+		const nextIndex =
+			parseInt(this.current.element.dataset.index!) + this.options.scrollBy;
+		const nextElement = this.elements.slides[nextIndex];
 
-		if (!next) {
+		if (!nextElement) {
 			return;
 		}
 
-		this.goToElement(next);
+		this.goToElement(nextElement);
 	}
 
 	goToPrevious() {
-		const previous = this.current.previousElementSibling as HTMLDivElement;
+		const prevIndex =
+			parseInt(this.current.element.dataset.index!) - this.options.scrollBy;
 
-		if (!previous) {
+		// prevent going to negative index
+		const prevElement = this.elements.slides[prevIndex < 0 ? 0 : prevIndex];
+
+		if (!prevElement) {
 			return;
 		}
 
-		this.goToElement(previous);
+		this.goToElement(prevElement);
 	}
 
-	goToElement(element: HTMLDivElement) {
-		element.style.opacity = '0.5';
-		setTimeout(() => {
-			element.style.opacity = '1';
-		}, 500);
+	goToElement(element: HTMLElement) {
+		flashElement(element);
 
-		const scrollContainerPadding = parseInt(
-			getComputedStyle(this.elements.scrollContainer).paddingLeft
-		);
-
-		const scrollContainerOffsetLeft = this.elements.scrollContainer.offsetLeft;
-
-		// Account for offsetLeft and scrollContainerPadding when calculating the scrollTo position
-		this.elements.scrollContainer.scrollTo({
-			left:
-				element.offsetLeft - scrollContainerOffsetLeft - scrollContainerPadding,
-			behavior: 'smooth'
+		element.scrollIntoView({
+			behavior: 'smooth',
+			block: 'nearest',
+			inline: 'start'
 		});
 	}
 
@@ -160,21 +166,21 @@ export default class ScrollSnapper {
 		).length;
 
 		// set current to the first slide that hasIntersected
-		this.current = [...this.elements.slides].find((slide) => {
+		this.current.element = [...this.elements.slides].find((slide) => {
 			return slide.hasIntersected;
 		})!;
 
 		// bail if current is undefined (can happen in single slide mode)
 		// prevent error when current is undefined when accessing dataset
-		if (!this.current) return;
+		if (!this.current.element) return;
 
 		// set isFirst and isLast
-		this.isFirst = this.current.dataset.index === '0';
+		this.isFirst = this.current.element.dataset.index === '0';
 
 		// isLast is true if the current slide index + the intersectingLength (aka visible slides)
 		// is equal to the total number of slides
 		this.isLast =
-			this.intersectingLength + parseInt(this.current.dataset.index!) >=
+			this.intersectingLength + parseInt(this.current.element.dataset.index!) >=
 			this.elements.slides.length;
 
 		// hide or show buttons depending on snapper is at beginning or end
@@ -233,11 +239,22 @@ export default class ScrollSnapper {
 
 		this.elements.debug!.innerHTML = `
 			<pre style="font-size: .7rem">
-current: ${this.current.dataset.index}
+current: ${this.current.element.dataset.index}
 intersectingLength: ${this.intersectingLength}
 
 ${JSON.stringify(debugObject, null, 2)}
 
 			</pre>`;
 	}
+}
+
+function flashElement(element: HTMLElement) {
+	element.style.opacity = '0.5';
+	setTimeout(() => {
+		element.style.opacity = '1';
+	}, 500);
+}
+
+function getCssVariableValue(element: HTMLElement, variableName: string) {
+	return getComputedStyle(element).getPropertyValue(variableName);
 }

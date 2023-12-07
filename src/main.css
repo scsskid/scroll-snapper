@@ -39,6 +39,7 @@ body {
 	--elements: 1;
 	--gap: 1rem;
 	--padding: 0;
+	--scroll-by: 1;
 
 	display: flex;
 	gap: var(--gap, 0);
@@ -69,6 +70,7 @@ body {
 
 .demo-holy-grail [data-snap-slider] {
 	--elements: 4;
+	--scroll-by: 4;
 	--gap: 0.75rem;
 	--padding-pre-calc: calc(
 		50% - var(--container-width) / 2 + var(--container-margin) * 2 / 2
