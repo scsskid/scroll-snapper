@@ -52,6 +52,10 @@ export default class ScrollSnapper {
 		// this.createDebugger();
 	}
 
+	/**
+	 * @description Sets the initial state of the snapper: sets all slides to hasIntersected: false and adds data-index attribute
+	 * @returns void
+	 */
 	private initState() {
 		if (!this.elements.slides) return;
 
@@ -77,6 +81,10 @@ export default class ScrollSnapper {
 		this.elements.scrollContainer.before(controls);
 	}
 
+	/**
+	 * @description Creates the dot nav and inserts it after the snapper-root element
+	 */
+
 	private createDotNav() {
 		let dotNav = document.createElement('div');
 		dotNav.className = 'snap-slider__dot-nav';
@@ -95,6 +103,12 @@ export default class ScrollSnapper {
 
 		this.elements.scrollContainer.after(dotNav);
 	}
+
+	/**
+	 * @description Creates the intersection observer
+	 * @returns void
+	 * @private
+	 */
 
 	private createObservers() {
 		// the oberver callback adds the isIntersecting property of the observer entry
@@ -123,7 +137,7 @@ export default class ScrollSnapper {
 	}
 
 	/**
-	 * Listens to events
+	 * @description Sets items to observe and adds event listeners to buttons
 	 * @returns void
 	 * @private
 	 */
@@ -244,7 +258,6 @@ export default class ScrollSnapper {
 	 * Updates the dot nav
 	 */
 	private updateDotNav() {
-		console.log('updateDotNav');
 		const dotNav = this.elements.scrollContainer.parentElement!.querySelector(
 			'.snap-slider__dot-nav'
 		)!;
@@ -262,7 +275,7 @@ export default class ScrollSnapper {
 	}
 
 	/**
-	 * Creates a button element
+	 * @description Creates a button element
 	 * @param type "previous" | "next"
 	 * @returns HTMLButtonElement
 	 */
