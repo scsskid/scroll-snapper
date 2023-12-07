@@ -3,7 +3,7 @@
 }
 
 :root {
-	--container-width: 680px;
+	--container-max-width: 50rem;
 	--container-margin: 2rem;
 }
 
@@ -17,7 +17,7 @@ body {
 }
 
 .container {
-	max-width: var(--container-width);
+	max-width: var(--container-max-width);
 	margin: 0 auto;
 }
 
@@ -39,7 +39,7 @@ body {
 [data-snap-slider] {
 	--elements: 1;
 	--gap: 1rem;
-	--padding: 0;
+	--padding-inline: 0;
 	--scroll-by: 1;
 
 	display: flex;
@@ -49,8 +49,8 @@ body {
 	scroll-snap-type: x mandatory;
 	/* scroll-behavior: smooth; */
 
-	padding-inline: var(--padding);
-	scroll-padding-inline-start: var(--padding);
+	padding-inline: var(--padding-inline);
+	scroll-padding-inline-start: var(--padding-inline);
 }
 
 [data-snap-slider] > * {
@@ -61,6 +61,13 @@ body {
 		100% / var(--elements) -
 			calc(var(--gap) * calc(var(--elements) - 1) / var(--elements))
 	);
+}
+
+[data-snap-slider].intrinsic-items > * {
+	width: auto;
+	height: auto;
+	max-width: 100%;
+	overflow: hidden;
 }
 
 [data-snap-slider]::-webkit-scrollbar {
@@ -77,15 +84,20 @@ body {
 	--elements: 4;
 	--scroll-by: 4;
 	--gap: 0.75rem;
-	--padding-pre-calc: calc(
-		50% - var(--container-width) / 2 + var(--container-margin) * 2 / 2
+
+	--padding-inline-pre-calc: calc(
+		50% - var(--container-max-width) / 2 + var(--container-margin)
 	);
-	--padding: clamp(var(--container-margin), var(--padding-pre-calc), 100vw);
+	--padding-inline: clamp(
+		var(--container-margin),
+		var(--padding-inline-pre-calc),
+		100vw
+	);
 }
 
 /* Slider Stylistic */
 
-[data-snap-slider] > * {
+[data-snap-slider]:not(.intrinsic-items) > * {
 	background-color: lightblue;
 	padding: 1rem;
 	height: 20rem;

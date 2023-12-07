@@ -10,6 +10,7 @@ type ScrollSnapperState = {
 	currentElement: HTMLElement;
 	isFirst: boolean;
 	isLast: boolean;
+	isScrolling: boolean;
 	intersectingLength: number;
 	options?: {
 		scrollBy: number;
@@ -35,6 +36,7 @@ export default class ScrollSnapper {
 			currentElement: this.elements.slides[0],
 			isFirst: false,
 			isLast: false,
+			isScrolling: false,
 			intersectingLength: 0,
 			options: {
 				// get scrollBy from css variable or use 1 as default
@@ -49,7 +51,7 @@ export default class ScrollSnapper {
 		this.createDotNav();
 		this.createObservers();
 		this.listen();
-		// this.createDebugger();
+		this.createDebugger();
 	}
 
 	/**
@@ -145,6 +147,8 @@ export default class ScrollSnapper {
 	private listen() {
 		if (!this.intersectionObserver) return;
 
+		let scrollTimeout: number;
+
 		// start observing all slides
 		for (let item of this.elements.slides) {
 			this.intersectionObserver.observe(item);
@@ -159,6 +163,20 @@ export default class ScrollSnapper {
 			'click',
 			this.goToNext.bind(this)
 		);
+
+		// set isScrolling state
+		this.elements.scrollContainer.addEventListener('scroll', () => {
+			if (!this.state.isScrolling) {
+				this.state.isScrolling = true;
+			}
+
+			clearTimeout(scrollTimeout);
+
+			scrollTimeout = setTimeout(() => {
+				this.state.isScrolling = false;
+				// synchronize after scrolling has stopped?
+			}, 300);
+		});
 	}
 
 	goToNext() {
@@ -195,7 +213,7 @@ export default class ScrollSnapper {
 
 	goToElement(element: HTMLElement) {
 		// flash element to go to
-		flashElement(element);
+		// flashElement(element);
 
 		// scroll to element only horizontally
 		element.scrollIntoView({
@@ -250,7 +268,7 @@ export default class ScrollSnapper {
 		}
 
 		// refresh debug
-		// this.updateDebugger();
+		this.updateDebugger();
 		this.updateDotNav();
 	}
 
@@ -289,37 +307,37 @@ export default class ScrollSnapper {
 		return button;
 	}
 
-	// 	/**
-	// 	 * Creates a visual debug element and appends it to the snapper-root element
-	// 	 */
-	// 	private createDebugger() {
-	// 		let debug = document.createElement('div');
-	// 		debug.className = 'snap-slider__debug';
-	// 		debug.innerHTML = 'debug';
-	// 		this.elements.scrollContainer.after(debug);
-	// 		this.elements.debug = debug;
-	// 	}
+	/**
+	 * Creates a visual debug element and appends it to the snapper-root element
+	 */
+	private createDebugger() {
+		let debug = document.createElement('div');
+		debug.className = 'snap-slider__debug';
+		debug.innerHTML = 'debug';
+		this.elements.scrollContainer.after(debug);
+		this.elements.debug = debug;
+	}
 
-	// 	/**
-	// 	 * Updates the debug element
-	// 	 */
-	// 	private updateDebugger() {
-	// 		const debugObject = [...this.elements.slides].map((slide) => {
-	// 			return {
-	// 				index: slide.dataset.index,
-	// 				isIntersecting: slide.hasIntersected
-	// 			};
-	// 		});
+	/**
+	 * Updates the debug element
+	 */
+	private updateDebugger() {
+		const debugObject = [...this.elements.slides].map((slide) => {
+			return {
+				index: slide.dataset.index,
+				isIntersecting: slide.hasIntersected
+			};
+		});
 
-	// 		this.elements.debug!.innerHTML = `
-	// 			<pre style="font-size: .7rem">
-	// current: ${this.state.currentElement.dataset.index}
-	// intersectingLength: ${this.intersectingLength}
+		this.elements.debug!.innerHTML = `
+<pre style="font-size: .7rem">
+	current: ${this.state.currentElement.dataset.index}
+	intersectingLength: ${this.state.intersectingLength}
 
-	// ${JSON.stringify(debugObject, null, 2)}
+	${JSON.stringify(debugObject, null, 2)}
 
-	// 			</pre>`;
-	// 	}
+</pre>`;
+	}
 }
 
 function flashElement(element: HTMLElement) {
