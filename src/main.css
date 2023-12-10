@@ -19,6 +19,7 @@ body {
 .container {
 	max-width: var(--container-max-width);
 	margin: 0 auto;
+	background-color: aliceblue;
 }
 
 header,
@@ -63,13 +64,6 @@ body {
 	);
 }
 
-[data-snap-slider].intrinsic-items > * {
-	width: auto;
-	height: auto;
-	max-width: 100%;
-	overflow: hidden;
-}
-
 [data-snap-slider]::-webkit-scrollbar {
 	display: none;
 }
@@ -84,6 +78,8 @@ body {
 	--elements: 4;
 	--scroll-by: 4;
 	--gap: 0.75rem;
+	/* --scroll-snap-align: center; */
+	/* --peek-width: 1rem; */
 
 	--padding-inline-pre-calc: calc(
 		50% - var(--container-max-width) / 2 + var(--container-margin)
@@ -104,10 +100,56 @@ body {
 	box-shadow: inset 0 0 0 1px #f00;
 }
 
+/* instrinsic sizing */
+
+[data-snap-slider].intrinsic-items > * {
+	width: auto;
+	height: auto;
+	max-width: 100%;
+	overflow: hidden;
+}
+
+/* peeker */
+
+[data-snap-slider].peeker-peek-width > * {
+	--peek-width: 1.75rem;
+
+	scroll-snap-align: center;
+
+	width: calc(100% - var(--peek-width) * 2);
+
+	&:first-child {
+		margin-inline-start: var(--peek-width);
+	}
+
+	&:last-child {
+		margin-inline-end: var(--peek-width);
+	}
+}
+
+[data-snap-slider].peeker-scroll-padding > * {
+	/* width: calc(100% - var(--padding-inline) * 0); */
+}
+
 /* etc */
 
 pre {
 	font-size: 0.75rem;
 
 	overflow-x: auto;
+}
+
+/**
+ * Fix overflow scroll ignoring margin/padding.
+ * @see https://tannerhodges.github.io/snap-slider/
+ * @see https://chenhuijing.com/blog/flexbox-and-padding/
+ * @see https://itnext.io/horizontal-overflow-with-flexbox-css-64f530495303
+ */
+.scrollfix::before,
+.scrollfix::after {
+	content: '';
+	display: inline-block;
+	flex: 0 0 auto;
+	width: 1px;
+	margin-left: -1px;
 }

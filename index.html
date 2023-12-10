@@ -26,24 +26,53 @@
 			<h2>Gap</h2>
 
 			<div data-snap-slider class="intrinsic-items" style="--gap: 1rem">
-				<div><img src="https://picsum.photos/420/280"></div>
-				<div><img src="https://picsum.photos/400/350"></div>
-				<div><img src="https://picsum.photos/350/350"></div>
-				<div><img src="https://picsum.photos/900/500"></div>
-				<div><img src="https://picsum.photos/400/300"></div>
-				
+				<div><img src="https://picsum.photos/420/280" /></div>
+				<div><img src="https://picsum.photos/400/350" /></div>
+				<div><img src="https://picsum.photos/350/350" /></div>
+				<div><img src="https://picsum.photos/900/500" /></div>
+				<div><img src="https://picsum.photos/400/300" /></div>
 			</div>
+		</div>
 
 		<div class="wrap container">
-			<h2>3 elements</h2>
+			<h2>Peek width, no scroll padding</h2>
 
 			<div
+				class="peeker-peek-width"
 				data-snap-slider
-				style="--elements: 3; --scroll-by: 2; --gap: 1rem; --padding-inline: 0"
+				style="
+					--elements: 1;
+					--scroll-by: 1;
+					--gap: 1rem;
+					--padding-inline: 0;
+					--scroll-snap-align: center;
+					--peek-width: 4rem;
+				"
 			>
 				<div>1</div>
 				<div>2</div>
-				<div style="width: 20rem">3</div>
+				<div>3</div>
+				<div>4</div>
+				<div>5</div>
+			</div>
+		</div>
+
+		<div class="wrap container">
+			<h2>scroll padding only peeker</h2>
+
+			<div
+				class="peeker-scroll-padding"
+				data-snap-slider
+				style="
+					--elements: 1;
+					--scroll-by: 1;
+					--gap: 1rem;
+					--padding-inline: 1.75rem;
+				"
+			>
+				<div>1</div>
+				<div>2</div>
+				<div>3</div>
 				<div>4</div>
 				<div>5</div>
 			</div>
